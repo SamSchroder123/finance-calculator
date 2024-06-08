@@ -9,21 +9,32 @@ td {
   border: 2px solid;
 }
 
+td:nth-child(even),
+th:nth-child(even) {
+  background-color: #d6eeee;
+}
+
 table {
   width: 90vw;
 }
 
-.calc-row,
-.calc-display {
+.calc-row {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  height: 40px;
   align-items: center;
   padding: 0px;
+  height: ;
+}
+
+#calc-row5 {
+  height: 40px;
 }
 
 .calc-item {
-  min-width: 30px;
+  min-width: 40px;
+  height: 100%;
   padding: 0px;
   /* max-width: fit-content; */
 }
@@ -41,4 +52,14 @@ th {
 tr {
   margin-top: 5vh;
   margin-bottom: 5vh;
+}
+
+#calc-display {
+  background-color: yellow;
+  display: flex;
+  align-items: center;
+}
+
+#calc-display > * {
+  margin: 20px 20px 20px 20px;
 }
