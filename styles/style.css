@@ -1,0 +1,44 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+table,
+tr,
+td {
+  border: 2px solid;
+}
+
+table {
+  width: 90vw;
+}
+
+.calc-row,
+.calc-display {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+  padding: 0px;
+}
+
+.calc-item {
+  min-width: 30px;
+  padding: 0px;
+  /* max-width: fit-content; */
+}
+
+.numeric-button {
+  width: 100%;
+  height: 100%;
+}
+
+th {
+  margin-top: 10vh;
+  margin-bottom: 10vh;
+}
+
+tr {
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
