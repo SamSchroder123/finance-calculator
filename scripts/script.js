@@ -1,7 +1,9 @@
 let output = "";
 let numInput;
 const ms = 5; // Delay in milliseconds
-let entered;
+let entered = () => {
+  console.log("no promise yet");
+};
 
 let calculationsArr = [
   {
@@ -187,7 +189,13 @@ function numericClick(button) {
   numInput = undefined;
   console.log("running numericClick()");
   const display = document.getElementById("display-text");
-  display.innerHTML = button.innerHTML;
+  if (isNaN(display.innerHTML)) {
+    display.innerHTML = "";
+  }
+  if ((display.innerHTML + button.innerHTML).split(".").length > 2) {
+    return;
+  }
+  display.innerHTML += button.innerHTML;
 }
 
 function enterClick() {

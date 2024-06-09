@@ -78,3 +78,7 @@ tr {
 #decimal-button {
   font-size: 20px;
 }
+
+#calculation-label {
+  background-color: white;
+}
