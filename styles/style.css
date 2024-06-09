@@ -19,6 +19,7 @@ table {
   max-width: 90vw;
   padding: 0px;
   background-color: grey;
+  height: 95vh;
 }
 
 .calc-row {
