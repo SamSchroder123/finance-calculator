@@ -108,7 +108,7 @@ let calculationsArr = [
   {
     id: "cash-flow",
     description:
-      "Calculates the total annual income generated from renting out the property before any expenses.",
+      "Calculates the annual cash flow after accounting for mortgage payments.",
     async function() {
       console.log(this.id + " selected");
       let answers = [];
@@ -124,12 +124,115 @@ let calculationsArr = [
       }
       let answer = 0;
       answer = answers[0] - answers[1];
-      typewrite("Your Net Operating Income (NOI) is £" + answer + " per year.");
+      typewrite("Your Cash Flow is £" + answer + " per year.");
       addRow(toTitleCase(this.id.split("-").join(" ")), answer);
     },
     questions: {
       0: "What is your Net Operating Income (NOI)? /£: ",
       1: "What is your Debt Service (annual mortgage payments, principal plus interest)? /£: ",
+    },
+  },
+  {
+    id: "cap-rate",
+    description:
+      "Measures the rate of return on the property based on the NOI and purchase price.",
+    async function() {
+      console.log(this.id + " selected");
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+      for (let question in this.questions) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = (answers[0] / answers[1]) * 100;
+      typewrite("Your Capitalization Rate (Cap Rate) is " + answer + "%.");
+      addRow(toTitleCase(this.id.split("-").join(" ")), answer);
+    },
+    questions: {
+      0: "What is your Net Operating Income (NOI)? /£: ",
+      1: "What is the property purchase price? /£: ",
+    },
+  },
+  {
+    id: "roi",
+    description: "Calculates the percentage return on the initial investment.",
+    async function() {
+      console.log(this.id + " selected");
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+      for (let question in this.questions) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = (answers[0] / answers[1]) * 100;
+      typewrite("Your Return on Investment (ROI) is " + answer + "%.");
+      addRow(toTitleCase(this.id.split("-").join(" ")), answer);
+    },
+    questions: {
+      0: "What is your annual cash flow? /£: ",
+      1: "What is your total cash invested? /£: ",
+    },
+  },
+  {
+    id: "cash-on-cash-return",
+    description:
+      "Calculates the cash-on-cash return based on annual cash flow relative to the cash invested.",
+    async function() {
+      console.log(this.id + " selected");
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+      for (let question in this.questions) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = (answers[0] / answers[1]) * 100;
+      typewrite("Your Cash-on-Cash Return is " + answer + "%.");
+      addRow(toTitleCase(this.id.split("-").join(" ")), answer);
+    },
+    questions: {
+      0: "What is your annual cash flow? /£: ",
+      1: "What is your total cash invested? /£: ",
+    },
+  },
+  {
+    id: "break-even-occupancy-rate",
+    description:
+      "Determines the minimum occupancy rate needed to cover all expenses.",
+    async function() {
+      console.log(this.id + " selected");
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+      for (let question in this.questions) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = (answers[0] / (answers[1] * 365)) * 100;
+      typewrite("Your Break-Even Occupancy Rate is " + answer + "%.");
+      addRow(toTitleCase(this.id.split("-").join(" ")), answer);
+    },
+    questions: {
+      0: "What are your total annual expenses? /£: ",
+      1: "What is your average nightly rate? /£: ",
     },
   },
 ];
@@ -229,8 +332,11 @@ function numericClick(button) {
   numInput = undefined;
   console.log("running numericClick()");
   const display = document.getElementById("display-text");
-  if (isNaN(display.innerHTML)) {
+  if (isNaN(display.innerHTML) && display.innerHTML != "-") {
     display.innerHTML = "";
+  }
+  if (button.innerHTML === "-" && display.innerHTML !== "") {
+    return;
   }
   if ((display.innerHTML + button.innerHTML).split(".").length > 2) {
     return;

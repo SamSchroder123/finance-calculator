@@ -75,7 +75,8 @@ tr {
   height: 40px;
 }
 
-#decimal-button {
+#decimal-button,
+#minus-button {
   font-size: 20px;
 }
 
