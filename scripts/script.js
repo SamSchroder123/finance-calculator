@@ -1,6 +1,6 @@
 let output = "";
 let numInput;
-const ms = 50; // Delay in milliseconds
+const ms = 5; // Delay in milliseconds
 let entered;
 
 let calculationsArr = [
@@ -50,20 +50,22 @@ let calculationsArr = [
       console.log(this.id + " selected");
       let answers = [];
       let qs;
-      for (question in this.questions) {
-        await typewrite(question);
+      qs = Object.values(this.questions);
+      for (let question in this.questions) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
           entered = resolve;
         });
-        qs = Object.values(this.questions);
-        answers[qs.findIndex(question)] = await awaitingInput;
+        answers[question] = await awaitingInput;
       }
       let sum = 0;
-      for (num in answers) {
-        sum += num;
+      console.log(answers);
+      for (num of answers) {
+        sum += parseFloat(num);
       }
       const answer = sum;
-      return answer;
+      typewrite("Your total operating expense is £" + answer);
     },
     questions: {
       0: "What are your total fixed costs? (Mortgage payments, property taxes, insurance, HOA fees .etc) /£: ",
