@@ -1,5 +1,6 @@
 body {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -9,12 +10,11 @@ td {
   border: 2px solid;
 }
 
-td:nth-child(even),
-th:nth-child(even) {
+#results-table > tr:nth-child(even) {
   background-color: #d6eeee;
 }
 
-table {
+#calculator {
   width: 90vw;
   max-width: 90vw;
   padding: 0px;

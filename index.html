@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/style.css" />
   </head>
   <body>
-    <table>
+    <table id="calculator">
       <tr>
         <tr class="calc-row"><td class="calc-item" id="calc-display"><p id="display-text"></p></td></tr>
       </tr>
@@ -54,7 +54,7 @@
         </td>
       </tr>
       <tr class="calc-row" id="calc-row5">
-        <td><input class="calc-item" id="calc-input" type="text" /> <button id="input-submit">Go</button></td>
+        <td><input class="calc-item" id="calc-input" type="text" /></td>
       </tr>
       <tr class="calc-row" id="calc-row6">
         <td><label id="calculation-label">Choose a calculation:</label>
@@ -66,6 +66,15 @@
             <option value="cash-flow">Cash Flow</option>
           </select></td>
       </tr>
+    </table>
+    <table id="results-table">
+      <caption>Calculation Results Table</caption>
+      <thead>
+        <tr>
+          <th class="table-heading">Calculation</th>
+          <th class="table-heading">Calculation Result /£</th>
+        </tr>
+      </thead>
     </table>
     <script src="scripts/script.js" defer="defer"></script>
   </body>
