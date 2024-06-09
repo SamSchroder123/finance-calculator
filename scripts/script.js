@@ -54,7 +54,7 @@ function enableInput() {
   for (let index = 0; index < buttons.length; index++) {
     const element = buttons[index];
     element.setAttribute("style", "background-color: none;");
-    element.setAttribute("onclick", numericClick);
+    element.setAttribute("onclick", "numericClick(this)");
   }
   inputField.setAttribute("style", "background-color: none;");
 }
@@ -65,15 +65,15 @@ function disableInput() {
   for (let index = 0; index < buttons.length; index++) {
     const element = buttons[index];
     element.setAttribute("style", "background-color: red;");
-    element.setAttribute("onclick", () => {});
+    element.setAttribute("onclick", "() => {}");
   }
   inputField.setAttribute("style", "background-color: red;");
 }
 
-function numericClick() {
+function numericClick(button) {
   console.log("running numericClick()");
   const display = document.getElementById("display-text");
-  display.innerHTML = "";
+  display.innerHTML = button.innerHTML;
 }
 
 let output = "";
