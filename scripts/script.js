@@ -67,6 +67,9 @@ let calculationsArr = [
       let qs;
       qs = Object.values(this.questions);
       for (let question in this.questions) {
+        if (qs[question] == undefined) {
+          continue;
+        }
         console.log("considering this question: " + question);
         await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
@@ -100,6 +103,7 @@ let calculationsArr = [
       await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
       await wait();
       await typewrite(this.description);
+      await wait();
       let GRI = findResult("gross-rental-income");
       let OE = findResult("operating-expenses");
 
@@ -108,15 +112,18 @@ let calculationsArr = [
       qs = Object.values(this.questions);
 
       if (GRI !== undefined) {
-        qs.splice(0);
+        qs[0] = undefined;
         answers[0] = parseFloat(GRI.innerHTML);
       }
       if (OE !== undefined) {
-        qs.splice(1);
+        qs[1] = undefined;
         answers[1] = parseFloat(OE.innerHTML);
       }
 
       for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
         console.log("considering this question: " + question);
         await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
@@ -144,17 +151,22 @@ let calculationsArr = [
       await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
       await wait();
       await typewrite(this.description);
+      await wait();
       let NOI = findResult("net-operating-income");
 
       let answers = [];
       let qs;
       qs = Object.values(this.questions);
       if (NOI !== undefined) {
-        qs.splice(0);
+        qs[0] = undefined;
         answers[0] = parseFloat(NOI.innerHTML);
       }
 
       for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
+
         console.log("considering this question: " + question);
         await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
@@ -178,10 +190,25 @@ let calculationsArr = [
       "Measures the rate of return on the property based on the NOI and purchase price.",
     async function() {
       console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let NOI = findResult("net-operating-income");
+
       let answers = [];
       let qs;
       qs = Object.values(this.questions);
-      for (let question in this.questions) {
+      if (NOI !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(NOI.innerHTML);
+      }
+
+      for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
         console.log("considering this question: " + question);
         await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
@@ -203,10 +230,26 @@ let calculationsArr = [
     description: "Calculates the percentage return on the initial investment.",
     async function() {
       console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let CF = findResult("cash-flow");
+
       let answers = [];
       let qs;
       qs = Object.values(this.questions);
-      for (let question in this.questions) {
+
+      if (CF !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(CF.innerHTML);
+      }
+
+      for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
         console.log("considering this question: " + question);
         await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
@@ -223,43 +266,59 @@ let calculationsArr = [
       1: "What is your total cash invested? /£: ",
     },
   },
-  {
-    id: "cash-on-cash-return",
-    description:
-      "Calculates the cash-on-cash return based on annual cash flow relative to the cash invested.",
-    async function() {
-      console.log(this.id + " selected");
-      let answers = [];
-      let qs;
-      qs = Object.values(this.questions);
-      for (let question in this.questions) {
-        console.log("considering this question: " + question);
-        await typewrite(this.questions[question]);
-        awaitingInput = new Promise((resolve) => {
-          entered = resolve;
-        });
-        answers[question] = await awaitingInput;
-      }
-      let answer = (answers[0] / answers[1]) * 100;
-      typewrite("Your Cash-on-Cash Return is " + answer + "%.");
-      addRow(this.id, answer);
-    },
-    questions: {
-      0: "What is your annual cash flow? /£: ",
-      1: "What is your total cash invested? /£: ",
-    },
-  },
+  // {
+  //   id: "cash-on-cash-return",
+  //   description:
+  //     "Calculates the cash-on-cash return based on annual cash flow relative to the cash invested.",
+  //   async function() {
+  //     console.log(this.id + " selected");
+  //     let answers = [];
+  //     let qs;
+  //     qs = Object.values(this.questions);
+  //     for (let question in qs) {
+  //       console.log("considering this question: " + question);
+  //       await typewrite(this.questions[question]);
+  //       awaitingInput = new Promise((resolve) => {
+  //         entered = resolve;
+  //       });
+  //       answers[question] = await awaitingInput;
+  //     }
+  //     let answer = (answers[0] / answers[1]) * 100;
+  //     typewrite("Your Cash-on-Cash Return is " + answer + "%.");
+  //     addRow(this.id, answer);
+  //   },
+  //   questions: {
+  //     0: "What is your annual cash flow? /£: ",
+  //     1: "What is your total cash invested? /£: ",
+  //   },
+  // },
   {
     id: "break-even-occupancy-rate",
     description:
       "Determines the minimum occupancy rate needed to cover all expenses.",
     async function() {
       console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let OE = findResult("operating-expenses");
+
       let answers = [];
       let qs;
       qs = Object.values(this.questions);
-      for (let question in this.questions) {
+
+      if (OE !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(OE.innerHTML);
+      }
+
+      for (let question in qs) {
         console.log("considering this question: " + question);
+        if (qs[question] == undefined) {
+          continue;
+        }
         await typewrite(this.questions[question]);
         awaitingInput = new Promise((resolve) => {
           entered = resolve;
@@ -296,7 +355,7 @@ async function timeoutFunction(Arr, index, ms) {
   });
 }
 
-async function wait(milliseconds = 2000) {
+async function wait(milliseconds = 2500) {
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log("waited " + milliseconds / 1000 + " seconds");

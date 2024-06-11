@@ -89,7 +89,7 @@ tr {
 #calculator {
   table-layout: fixed;
   width: 90vw;
-  max-width: 90vw;
+  max-width: 800px;
   padding: 0px;
   background-color: grey;
   height: 95vh;
