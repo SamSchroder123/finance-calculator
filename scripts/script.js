@@ -1,6 +1,7 @@
 let output = "";
 let numInput;
 const ms = 5; // Delay in milliseconds
+const dp = 5;
 let entered = () => {
   console.log("no promise yet");
 };
@@ -334,6 +335,259 @@ let calculationsArr = [
       1: "What is your average nightly rate? /£: ",
     },
   },
+  {
+    id: "debt-coverage-ratio",
+    description:
+      "Measures the property's ability to cover its debt obligations. A DCR greater than 1 indicates that the property generates enough income to cover its debt payments.",
+    async function() {
+      console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let NOI = findResult("net-operating-income");
+      let DS = findResult("cash-flow");
+
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+
+      if (NOI !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(NOI.innerHTML);
+      }
+      if (DS !== undefined) {
+        qs[1] = undefined;
+        answers[1] = parseFloat(DS.innerHTML);
+      }
+
+      for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = answers[0] / answers[1];
+      typewrite("Your Debt Coverage Ratio (DCR) is " + answer + ".");
+      addRow(this.id, answer);
+    },
+    questions: {
+      0: "What is your Net Operating Income (NOI)? /£: ",
+      1: "What is your Debt Service (annual mortgage payments, principal plus interest)? /£: ",
+    },
+  },
+  {
+    id: "gross-rent-multiplier",
+    description:
+      "Provides a quick estimate of the property's value based on its rental income. Lower GRMs indicate better investment opportunities.",
+    async function() {
+      console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let GRI = findResult("gross-rental-income");
+      let PP = findResult("cap-rate");
+
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+
+      if (GRI !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(GRI.innerHTML);
+      }
+      if (PP !== undefined) {
+        qs[1] = undefined;
+        answers[1] = parseFloat(PP.innerHTML);
+      }
+
+      for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = answers[1] / answers[0];
+      typewrite("Your Gross Rent Multiplier (GRM) is " + answer + ".");
+      addRow(this.id, answer);
+    },
+    questions: {
+      0: "What is your Gross Rental Income (GRI)? /£: ",
+      1: "What is the property purchase price? /£: ",
+    },
+  },
+  {
+    id: "payback-period",
+    description:
+      "Calculates the number of years it will take to recover the initial investment from the property's cash flow.",
+    async function() {
+      console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let CF = findResult("cash-flow");
+      let TCI = findResult("roi");
+
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+
+      if (CF !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(CF.innerHTML);
+      }
+      if (TCI !== undefined) {
+        qs[1] = undefined;
+        answers[1] = parseFloat(TCI.innerHTML);
+      }
+
+      for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = answers[1] / answers[0];
+      typewrite("Your Payback Period is " + answer + " years.");
+      addRow(this.id, answer);
+    },
+    questions: {
+      0: "What is your annual cash flow? /£: ",
+      1: "What is your total cash invested? /£: ",
+    },
+  },
+  {
+    id: "annual-appreciation-rate",
+    description:
+      "Estimates the annual appreciation rate of the property value over time.",
+    async function() {
+      console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+      for (let question in qs) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = ((answers[0] - answers[1]) / answers[1]) * (1 / answers[2]);
+      typewrite("Your Annual Appreciation Rate is " + answer + "%.");
+      addRow(this.id, answer);
+    },
+    questions: {
+      0: "What is the current property value? /£: ",
+      1: "What is the purchase price? /£: ",
+      2: "How many years have you held the property? /years: ",
+    },
+  },
+  {
+    id: "expense-ratio",
+    description:
+      "Measures the proportion of income that goes toward operating expenses. A lower expense ratio indicates higher profitability.",
+    async function() {
+      console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+      let OE = findResult("operating-expenses");
+      let GRI = findResult("gross-rental-income");
+
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+
+      if (OE !== undefined) {
+        qs[0] = undefined;
+        answers[0] = parseFloat(OE.innerHTML);
+      }
+      if (GRI !== undefined) {
+        qs[1] = undefined;
+        answers[1] = parseFloat(GRI.innerHTML);
+      }
+
+      for (let question in qs) {
+        if (qs[question] == undefined) {
+          continue;
+        }
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = (answers[0] / answers[1]) * 100;
+      typewrite("Your Expense Ratio is " + answer + "%.");
+      addRow(this.id, answer);
+    },
+    questions: {
+      0: "What are your total operating expenses? /£: ",
+      1: "What is your Gross Rental Income (GRI)? /£: ",
+    },
+  },
+  {
+    id: "loan-to-value-ratio",
+    description:
+      "Indicates the ratio of the loan amount to the property's value. It is used by lenders to assess risk.",
+    async function() {
+      console.log(this.id + " selected");
+
+      await typewrite(toTitleCase(this.id.split("-").join(" ")) + " selected.");
+      await wait();
+      await typewrite(this.description);
+      await wait();
+
+      let answers = [];
+      let qs;
+      qs = Object.values(this.questions);
+      for (let question in qs) {
+        console.log("considering this question: " + question);
+        await typewrite(this.questions[question]);
+        awaitingInput = new Promise((resolve) => {
+          entered = resolve;
+        });
+        answers[question] = await awaitingInput;
+      }
+      let answer = (answers[0] / answers[1]) * 100;
+      typewrite("Your Loan-to-Value Ratio (LTV) is " + answer + "%.");
+      addRow(this.id, answer);
+    },
+    questions: {
+      0: "What is the loan amount? /£: ",
+      1: "What is the current property value? /£: ",
+    },
+  },
 ];
 
 function stringToArr(text) {
@@ -377,13 +631,18 @@ async function typewrite(text) {
   return;
 }
 
-async function init() {
+async function init(calcArr) {
   const display = document.getElementById("display-text");
   display.innerHTML = ""; // Clear display before starting the typewriter effect
+  const dropDown = document.getElementById("calculation");
+  for (let calculation of calcArr) {
+    let newCalc = document.createElement("option");
+    newCalc.setAttribute("value", calculation.id);
+    newCalc.innerHTML = toTitleCase(calculation.id.split("-").join(" "));
+    dropDown.appendChild(newCalc);
+  }
   output = ""; // Reset the output
   await typewrite("Welcome to the financial calculator!");
-  // await wait(2000);
-  // await typewrite(" It's good to have you here!");
   let calculation = document.getElementById("calculation");
   calculation.setAttribute("onchange", "calculationChange(calculationsArr)");
 }
@@ -461,7 +720,9 @@ function addRow(calculation, result) {
   let calcTd = document.createElement("td");
   calcTd.innerHTML = toTitleCase(calculation.split("-").join(" "));
   let resultTd = document.createElement("td");
-  resultTd.innerHTML = result;
+  let dpMultiplier = 1 * 10 ** dp;
+  let resultDP = Math.round(result * dpMultiplier) / dpMultiplier;
+  resultTd.innerHTML = resultDP;
   resultTd.setAttribute("class", "result");
   resultTd.setAttribute("data-id", calculation);
   let row = document.createElement("tr");
@@ -488,4 +749,4 @@ function findResult(id) {
   return undefined;
 }
 
-init();
+init(calculationsArr);
