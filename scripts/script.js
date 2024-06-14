@@ -693,6 +693,13 @@ function numericClick(button) {
   if (isNaN(display.innerHTML) && display.innerHTML != "-") {
     display.innerHTML = "";
   }
+  if (button.innerHTML === "C" && !isNaN(display.innerHTML)) {
+    display.innerHTML = display.innerHTML.slice(
+      0,
+      display.innerHTML.length - 1
+    );
+    return;
+  }
   if (button.innerHTML === "-" && display.innerHTML !== "") {
     return;
   }
