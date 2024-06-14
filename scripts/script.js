@@ -610,9 +610,11 @@ async function timeoutFunction(Arr, index, ms) {
 }
 
 async function wait(milliseconds = 2500) {
+  disableInput();
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log("waited " + milliseconds / 1000 + " seconds");
+      enableInput();
       resolve();
     }, milliseconds);
   });
@@ -692,6 +694,13 @@ function numericClick(button) {
   const display = document.getElementById("display-text");
   if (isNaN(display.innerHTML) && display.innerHTML != "-") {
     display.innerHTML = "";
+  }
+  if (button.innerHTML === "C" && !isNaN(display.innerHTML)) {
+    display.innerHTML = display.innerHTML.slice(
+      0,
+      display.innerHTML.length - 1
+    );
+    return;
   }
   if (button.innerHTML === "-" && display.innerHTML !== "") {
     return;
