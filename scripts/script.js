@@ -610,9 +610,11 @@ async function timeoutFunction(Arr, index, ms) {
 }
 
 async function wait(milliseconds = 2500) {
+  disableInput();
   return new Promise((resolve) => {
     setTimeout(() => {
       console.log("waited " + milliseconds / 1000 + " seconds");
+      enableInput();
       resolve();
     }, milliseconds);
   });
